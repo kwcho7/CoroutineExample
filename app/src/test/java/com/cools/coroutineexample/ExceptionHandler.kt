@@ -1,4 +1,4 @@
-package com.cools.coroutineexample.exceptionHandler
+package com.cools.coroutineexample
 
 import kotlinx.coroutines.*
 import org.junit.Test
