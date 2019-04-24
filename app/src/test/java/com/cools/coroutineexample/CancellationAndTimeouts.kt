@@ -2,7 +2,6 @@ package kr.cools.demo.kotlin.coroutine
 
 import kotlinx.coroutines.*
 import org.junit.Test
-import java.lang.RuntimeException
 
 class CancellationAndTimeouts {
 

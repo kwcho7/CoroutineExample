@@ -4,7 +4,6 @@ import kotlinx.coroutines.*
 import org.junit.Test
 import java.io.IOException
 import java.lang.ArithmeticException
-import java.lang.Exception
 import java.lang.IndexOutOfBoundsException
 
 class ExceptionHandler {

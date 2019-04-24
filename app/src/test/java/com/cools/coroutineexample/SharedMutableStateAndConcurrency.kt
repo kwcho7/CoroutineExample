@@ -1,6 +1,5 @@
 package com.cools.coroutineexample
 
-import android.provider.Settings
 import kotlinx.coroutines.*
 import kotlinx.coroutines.channels.actor
 import kotlinx.coroutines.sync.Mutex
