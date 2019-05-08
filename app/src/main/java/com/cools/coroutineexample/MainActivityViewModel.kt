@@ -6,14 +6,18 @@ import androidx.databinding.ObservableInt
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import com.cools.coroutineexample.dto.main.MainData
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
+import com.cools.coroutineexample.log.logv
+import kotlinx.coroutines.*
 
 class MainActivityViewModel(application: Application) : AndroidViewModel(application) {
     private val repository = MainActivityRepository(context = application)
     val isLoading = ObservableInt(View.GONE)
+    private val job = Job()
+    private val exceptionHandler = CoroutineExceptionHandler{ context, throwable ->
+        logv("exceptionHandler.${throwable}")
+    }
+
+    private val scope = CoroutineScope(Dispatchers.Main + job + exceptionHandler)
 
     val dataLiveData = MutableLiveData<List<MainData>>().apply {
         CoroutineScope(Dispatchers.Main).launch {
@@ -24,7 +28,12 @@ class MainActivityViewModel(application: Application) : AndroidViewModel(applica
     fun initialized() {
     }
 
-    fun updateData() = GlobalScope.launch(Dispatchers.Main){
+    override fun onCleared() {
+        super.onCleared()
+        scope.coroutineContext.cancelChildren()
+    }
+
+    fun updateData() = scope.launch{
         isLoading.set(View.VISIBLE)
         repository.updateData()
         dataLiveData.postValue(repository.findAll())
